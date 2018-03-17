@@ -42,13 +42,13 @@ function pull-latest-version {
 }
 
 function extract-config {
-    echo "[Info} Unzip configuration"
-    unzip "${CONFIG_ZIP_FILE}"
+    echo "[Info] Unzip configuration"
+    unzip "${CONFIG_ZIP_FILE}" -d /config
 }
 
 function reload-config {
     echo "[Info] reload config"
-    hassio homeassistant restart 2&> /dev/null
+    ##hassio homeassistant restart 2&> /dev/null
 }
 
 ######################
