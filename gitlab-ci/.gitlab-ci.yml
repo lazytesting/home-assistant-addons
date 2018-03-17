@@ -1,0 +1,42 @@
+image: docker:latest
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+services:
+- docker:dind
+
+before_script:
+- docker info
+
+stages:
+  - test
+  - release
+
+test:
+  stage: test
+  script:
+  - docker network create localnetwork
+  - docker run -v ${CI_PROJECT_DIR}:/config --net localnetwork --name homeassistant -d homeassistant/home-assistant
+  - sleep 1m
+  - RESPONSE=$(docker run --net localnetwork --name testclient uzyexe/curl -d "{}" "http://homeassistant/api/config/core/check_config")
+  - echo "${RESPONSE}"
+  - counter=`echo "${RESPONSE}" | grep -c -i "error"`; if [ $counter -ge 2 ]; then echo "error in config" && exit 112; fi
+
+release: 
+  only:
+    - master
+  stage: release
+  script: 
+    - mkdir /tmp/dist
+    - cp -r "${CI_PROJECT_DIR}/." /tmp/dist
+    - rm -r /tmp/dist/.git
+    - rm /tmp/dist/.gitignore
+    - rm /tmp/dist/.gitlab-ci.yml
+    - echo `date '+%Y-%m-%d-%H-%M-%S'` > /tmp/dist/version.txt
+    - mkdir "${CI_PROJECT_DIR}/dist"
+    - cp -r /tmp/dist/. "${CI_PROJECT_DIR}/dist"
+  artifacts:  
+    paths:
+    - dist/.
+    expire_in: 1 week
