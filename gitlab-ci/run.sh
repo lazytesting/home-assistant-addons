@@ -9,12 +9,19 @@ GITLAB_REPOSITORY=$(jq --raw-output ".gitlab_repository" $CONFIG_PATH)
 POLL_INTERVAL=$(jq --raw-output '.poll_interval' $CONFIG_PATH)
 VERSION_ENDPOINT="https://gitlab.com/${GITLAB_ACCOUNT_NAME}/${GITLAB_REPOSITORY}/-/jobs/artifacts/master/download?job=release"
 ARTIFACT_ENDPOINT="https://gitlab.com/${GITLAB_ACCOUNT_NAME}/${GITLAB_REPOSITORY}/-/jobs/artifacts/master/raw/dist/version.txt?job=release"
-CURRENT_VERSION_FILE="/config/version.txt"
-LATEST_VERSION_FILE="/config/latest-version.txt"
-CONFIG_ZIP_FILE="/tmp/config.zip"
+CI_FOLDER="/config/.ci"
+CURRENT_VERSION_FILE="/config/.ci/version.txt"
+LATEST_VERSION_FILE="/config/.ci/latest-version.txt"
+CONFIG_ZIP_FILE="/config/.ci/latest.zip"
 ######################
 
 ##### functions ######
+
+function create-ci-folders {
+    mkdir -p "${CI_FOLDER}/new"
+    mkdir -p "${CI_FOLDER}/backup"
+}
+
 function get-latest-version-number {
     curl -L -o "${LATEST_VERSION_FILE}" --header "Private-Token: ${GITLAB_PRIVATE_TOKEN}" "${VERSION_ENDPOINT}"
 }
@@ -26,8 +33,8 @@ function compare-version-numbers {
     fi
     
     if [ -e "${CURRENT_VERSION_FILE}" ]; then
-        CURRENT=$(<version.txt)
-        LATEST=$(<version.txt)
+        CURRENT=$(<"${CURRENT_VERSION_FILE}")
+        LATEST=$(<"${LATEST_VERSION_FILE}")
         if [ CURRENT -ne LATEST]; then
             echo "[Info] No difference in version"; exit 0
         fi
@@ -43,7 +50,7 @@ function pull-latest-version {
 
 function extract-config {
     echo "[Info] Unzip configuration"
-    unzip "${CONFIG_ZIP_FILE}" -d /config
+    unzip "${CONFIG_ZIP_FILE}" -d "${CI_FOLDER}/new"
 }
 
 function reload-config {
@@ -56,10 +63,13 @@ function reload-config {
 #### Main program ####
 cd /config || { echo "[Error] Failed to cd into /config"; exit 1; }
 while true; do
+    create-ci-folders
     get-latest-version-number
     compare-version-numbers
     pull-latest-version
     extract-config
+    # backup
+    # conditional delete
     reload-config
     sleep "$POLL_INTERVAL"
 done

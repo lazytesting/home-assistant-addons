@@ -1,6 +1,6 @@
 {
   "name": "GitLab CI for Home Assistant",
-  "version": "0.2",
+  "version": "0.3",
   "slug": "gitlab_ci",
   "description": "Gitlab CI for your configuration",
   "startup": "services",
