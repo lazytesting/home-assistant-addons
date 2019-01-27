@@ -1,0 +1,29 @@
+{
+    "name": "Freeradius server",
+    "version": "0.1",
+    "slug": "freeradius",
+    "description": "Freeradius server",
+    "startup": "services",
+    "boot": "manual",
+    "hassio_api": false,
+    "map": ["config:rw"],
+    "options": {
+      "username": "",
+      "password": "",
+      "device-name": "",
+      "device-hostname": "",
+      "device-secret": ""      
+    },
+    "schema": {
+      "username": "str",
+      "password": "str",
+      "device-name": "str",
+      "device-hostname": "str",
+      "device-secret": "str"    
+    },
+    "ports": {
+      "1812/udp": 1812,
+      "1813/tcp": 1813,
+      "18120": 18120
+    }
+  }
