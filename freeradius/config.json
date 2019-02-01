@@ -1,6 +1,6 @@
 {
     "name": "Freeradius server",
-    "version": "0.2",
+    "version": "0.3",
     "slug": "freeradius",
     "description": "Freeradius server",
     "startup": "services",
