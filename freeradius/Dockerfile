@@ -6,7 +6,7 @@ FROM ${BUILD_FROM}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY init.sh /
-RUN chmod a+x /run.sh
+RUN chmod a+x /init.sh
 
 WORKDIR /projects
 
