@@ -5,6 +5,9 @@ FROM ${BUILD_FROM}
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+COPY init.sh /
+RUN chmod a+x /run.sh
+
 WORKDIR /projects
 
 RUN apk update && apk upgrade && \
