@@ -5,16 +5,15 @@ FROM ${BUILD_FROM}
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-COPY init.sh /
-RUN chmod a+x /init.sh
+COPY run.sh /
+RUN chmod a+x /run.sh
 
 WORKDIR /projects
 
 RUN apk update && apk upgrade && \
     apk add --update freeradius freeradius-sqlite freeradius-radclient freeradius-rest sqlite openssl-dev && \
     chgrp radius  /usr/sbin/radiusd && chmod g+rwx /usr/sbin/radiusd && \
-    rm /var/cache/apk/* && \
-    /init.sh
+    rm /var/cache/apk/*
 
 VOLUME \
     /opt/db/ \
@@ -25,4 +24,4 @@ EXPOSE \
     1813/udp \
     18120
 
-CMD ["radiusd","-xx","-f"] 
+CMD ["run.sh"] 
