@@ -1,6 +1,6 @@
 {
     "name": "Freeradius server",
-    "version": "0.10",
+    "version": "0.11",
     "slug": "freeradius",
     "description": "Freeradius server",
     "startup": "services",
@@ -10,9 +10,9 @@
     "options": {
       "username": "",
       "password": "",
-      "device-name": "",
-      "device-hostname": "",
-      "device-secret": ""      
+      "devicename": "",
+      "devicehostname": "",
+      "devicesecret": ""      
     },
     "schema": {
       "username": "str",
