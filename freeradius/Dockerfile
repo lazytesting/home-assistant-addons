@@ -1,5 +1,5 @@
 FROM marcelmaatkamp/freeradius
 
-RUN apk add --update jq
+RUN echo "test"
 
 CMD [ "/init.sh" ]
