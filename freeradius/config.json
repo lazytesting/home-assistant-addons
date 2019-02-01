@@ -1,6 +1,6 @@
 {
     "name": "Freeradius server",
-    "version": "0.9",
+    "version": "0.10",
     "slug": "freeradius",
     "description": "Freeradius server",
     "startup": "services",
@@ -17,9 +17,9 @@
     "schema": {
       "username": "str",
       "password": "str",
-      "device-name": "str",
-      "device-hostname": "str",
-      "device-secret": "str"    
+      "devicename": "str",
+      "devicehostname": "str",
+      "devicesecret": "str"    
     },
     "ports": {
       "1812/udp": 1812,

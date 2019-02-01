@@ -5,9 +5,9 @@ CONFIG_PATH=/data/options.json
 
 USERNAME=$(jq --raw-output ".username" $CONFIG_PATH)
 PASSWORD=$(jq --raw-output ".password" $CONFIG_PATH)
-DEVICE_NAME=$(jq --raw-output ".device-name" $CONFIG_PATH)
-DEVICE_HOSTNAME=$(jq --raw-output ".device-hostname" $CONFIG_PATH)
-DEVICE_SECRET=$(jq --raw-output ".device-secret" $CONFIG_PATH)
+DEVICE_NAME=$(jq --raw-output ".devicename" $CONFIG_PATH)
+DEVICE_HOSTNAME=$(jq --raw-output ".devicehostname" $CONFIG_PATH)
+DEVICE_SECRET=$(jq --raw-output ".devicesecret" $CONFIG_PATH)
 ################
  
 echo "$USERNAME Cleartext-Password := \"$PASSWORD\"" >> /etc/raddb/users
