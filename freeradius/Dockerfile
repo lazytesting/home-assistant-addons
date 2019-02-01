@@ -13,7 +13,8 @@ WORKDIR /projects
 RUN apk update && apk upgrade && \
     apk add --update freeradius freeradius-sqlite freeradius-radclient freeradius-rest sqlite openssl-dev && \
     chgrp radius  /usr/sbin/radiusd && chmod g+rwx /usr/sbin/radiusd && \
-    rm /var/cache/apk/*
+    rm /var/cache/apk/* && \
+    /init.sh
 
 VOLUME \
     /opt/db/ \
@@ -24,4 +25,4 @@ EXPOSE \
     1813/udp \
     18120
 
-CMD ["radiusd","-xx","-f"] && [ "/init.sh" ]
+CMD ["radiusd","-xx","-f"] 
