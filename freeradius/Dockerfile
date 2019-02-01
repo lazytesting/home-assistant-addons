@@ -24,4 +24,4 @@ EXPOSE \
     1813/udp \
     18120
 
-CMD ["run.sh"] 
+CMD ["/run.sh"] 
